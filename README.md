@@ -2,6 +2,9 @@
 
 Automation script for creating Google Calendar meeting invites with minimal input. The script authenticates via OAuth, then creates an event on your primary calendar using the Google Calendar API.
 
+## Demo Video
+Watch the setup walkthrough on [YouTube](https://youtu.be/iOpncfbox84).
+
 ## Prerequisites
 - Python 3.11 (or use the provided Conda instructions).
 - Google Cloud project with the Calendar API enabled.
