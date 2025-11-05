@@ -51,3 +51,22 @@ python mcp_server.py
 ```
 
 The server currently runs over stdio transport. When connected, call the `create_meeting_invite` tool with the same argument names used by the CLI flags (e.g. `meeting_time`, `other_email`, `meeting_title`, `meeting_notes`, `duration_minutes`, `host_email`). The tool responds with key event details (`summary`, `start`, `end`, `htmlLink`, etc.).
+
+### Configure Codex to Use This MCP Server
+1. Ensure the MCP environment is active (step above) and Codex CLI is installed.
+2. Register the server once with Codex:
+   ```bash
+   codex mcp add calendar_meeting /Users/arjungupta/anaconda3/envs/meeting_setup/bin/python /Users/arjungupta/Development/extra/google_calendar_meeting_setup/mcp_server.py
+   ```
+3. Verify the registration:
+   ```bash
+   codex mcp list
+   ```
+   You should see `calendar_meeting` with transport `stdio` and the Python command.
+4. Launch Codex normally (`codex`, `codex exec`, etc.). When Codex needs MCP tools it will start this server automatically.
+5. Inside Codex, invoke the `create_meeting_invite` tool by supplying the same arguments as the CLI flags, for example:
+   ```
+   create_meeting_invite meeting_time="2025-11-16 16:00" other_email="partner@example.com" meeting_title="Strategy Sync"
+   ```
+
+Remove or reconfigure the server any time with `codex mcp remove calendar_meeting`.
