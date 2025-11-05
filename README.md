@@ -11,7 +11,7 @@ Automation script for creating Google Calendar meeting invites with minimal inpu
 ```bash
 conda create -n meeting_setup python=3.11
 conda activate meeting_setup
-pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib mcp
 ```
 
 ## Obtain `credentials.json`
@@ -41,3 +41,13 @@ python create_meeting_invite.py \
   - `--duration-minutes` (default: 60)
 
 The script prints the event details, including a link to view it in Google Calendar.
+
+## MCP Server
+This project also exposes a Model Context Protocol (MCP) server so MCP-capable assistants can call the meeting tool directly.
+
+```bash
+conda activate meeting_setup
+python mcp_server.py
+```
+
+The server currently runs over stdio transport. When connected, call the `create_meeting_invite` tool with the same argument names used by the CLI flags (e.g. `meeting_time`, `other_email`, `meeting_title`, `meeting_notes`, `duration_minutes`, `host_email`). The tool responds with key event details (`summary`, `start`, `end`, `htmlLink`, etc.).

@@ -159,9 +159,37 @@ def create_calendar_event(args: argparse.Namespace) -> dict:
     )
 
 
+def create_meeting_invite(
+    *,
+    meeting_time: str,
+    other_email: str,
+    meeting_title: str = DEFAULT_MEETING_TITLE,
+    host_email: str = DEFAULT_HOST_EMAIL,
+    meeting_notes: str = "",
+    duration_minutes: int = DEFAULT_DURATION_MINUTES,
+) -> dict:
+    """Public helper to create an invite without argparse dependencies."""
+    args = argparse.Namespace(
+        meeting_title=meeting_title,
+        meeting_time=meeting_time,
+        other_email=other_email,
+        host_email=host_email,
+        meeting_notes=meeting_notes,
+        duration_minutes=duration_minutes,
+    )
+    return create_calendar_event(args)
+
+
 def main():
     args = parse_args()
-    created_event = create_calendar_event(args)
+    created_event = create_meeting_invite(
+        meeting_title=args.meeting_title,
+        meeting_time=args.meeting_time,
+        other_email=args.other_email,
+        host_email=args.host_email,
+        meeting_notes=args.meeting_notes,
+        duration_minutes=args.duration_minutes,
+    )
 
     print("Event created.")
     print(f"Summary: {created_event.get('summary')}")
