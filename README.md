@@ -27,7 +27,7 @@ pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib m
 ```bash
 python create_meeting_invite.py \
   --meeting-time "2025-11-09 17:00" \
-  --other-email "karan.adhi@gmail.com" \
+  --other-email "karan.xyz@gmail.com" \
   --meeting-title "Karan <> Arjun | Intro call" \
   --meeting-notes "https://example.com/agenda"
 ```
