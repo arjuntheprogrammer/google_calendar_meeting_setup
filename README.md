@@ -70,3 +70,18 @@ The server currently runs over stdio transport. When connected, call the `create
    ```
 
 Remove or reconfigure the server any time with `codex mcp remove calendar_meeting`.
+
+### Configure Claude Desktop
+1. Launch Claude Desktop once so it generates `claude_desktop_config.json` at `~/Library/Application Support/Claude/`.
+2. Add (or merge) this entry inside the `"mcpServers"` object:
+   ```json
+   {
+     "calendar-meeting": {
+       "command": "/Users/arjungupta/anaconda3/envs/meeting_setup/bin/python",
+       "args": [
+         "/Users/arjungupta/Development/extra/google_calendar_meeting_setup/mcp_server.py"
+       ]
+     }
+   }
+   ```
+3. Restart Claude Desktop (or toggle MCP servers in its settings) so it picks up the new server. The `create_meeting_invite` tool is then available directly within Claude.
