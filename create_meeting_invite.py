@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 from pathlib import Path
+import uuid
 from typing import Optional
 
 from google.auth.transport.requests import Request
@@ -127,7 +128,7 @@ def build_event(
     if other_email != host_email:
         attendees.append({"email": other_email})
 
-    return {
+    event_body = {
         "summary": meeting_title,
         "description": meeting_notes,
         "start": {"dateTime": meeting_start.isoformat(), "timeZone": TIMEZONE_ID},
@@ -135,6 +136,15 @@ def build_event(
         "attendees": attendees,
         "reminders": {"useDefault": True},
     }
+
+    event_body["conferenceData"] = {
+        "createRequest": {
+            "requestId": f"meet-{uuid.uuid4().hex}",
+            "conferenceSolutionKey": {"type": "hangoutsMeet"},
+        }
+    }
+
+    return event_body
 
 
 def create_calendar_event(args: argparse.Namespace) -> dict:
@@ -154,7 +164,12 @@ def create_calendar_event(args: argparse.Namespace) -> dict:
 
     return (
         service.events()
-        .insert(calendarId="primary", body=event_body, sendUpdates="all")
+        .insert(
+            calendarId="primary",
+            body=event_body,
+            sendUpdates="all",
+            conferenceDataVersion=1,
+        )
         .execute()
     )
 
